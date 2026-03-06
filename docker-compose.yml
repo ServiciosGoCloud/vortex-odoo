@@ -1,0 +1,23 @@
+services:
+  db_vortex:
+    image: postgres:18
+    container_name: db_vortex
+    environment:
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_DB=postgres
+    restart: always
+
+  vortex:
+    image: odoo:19.0
+    container_name: vortex
+    depends_on:
+      - db_vortex
+    ports:
+      - "8070:8069"
+    volumes:
+      - ./config:/etc/odoo
+      - ./addons:/mnt/extra-addons
+    environment:
+      - ODOO_MASTER_PASS=GoCloud_Serv_2026
+    restart: always
